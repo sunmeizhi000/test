@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <script src="./template-web.js"></script>
+</head>
+
+<body>
+    <input type="file" id="file1">
+    <button type="" id="upload">上传文件</button>
+    <br>
+    <img src="./images/loading.gif" alt="" style="display: none;" id="loading">
+
+    <script>
+        $(function() {
+            $(document).ajaxStart(function() {
+                $('#loading').show()
+            })
+            $(document).ajaxStop(function() {
+                $('#loading').hide()
+            })
+            $('upload').on('click', function() {
+                var files = $('file1')[0].files
+                if (files.length <= 0) {
+                    return alert('请上传文件')
+                }
+                var fd = new FormData()
+                fd.append('avatar', files[0])
+                $.ajax({
+                    method: 'post',
+                    url: 'http://www.liulongbin.top:3006/api/upload/avatar',
+                    data: fd,
+                    contentType: false,
+                    processData: false,
+                    success: function(res) {
+
+                    }
+                })
+
+            })
+        })
+    </script>
+</body>
+
+</html>

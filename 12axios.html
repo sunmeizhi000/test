@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./lib/axios.js"></script>
+</head>
+
+<body>
+    <button id="btn">发起get请求</button>
+    <button id="btn2">发起post请求</button>
+    <script>
+        document.querySelector('#btn').addEventListener('click', function() {
+            axios({
+                method: 'get',
+                url: 'http://www.liulongbin.top:3006/api/get',
+                params: {
+                    name: 'aaaaa',
+                    age: 88
+                },
+
+            }).then(res => {
+                console.log(res.data);
+            })
+        })
+        document.querySelector('#btn2').addEventListener('click', function() {
+            axios({
+                method: 'post',
+                url: 'http://www.liulongbin.top:3006/api/post',
+                data: {
+                    bookname: 'aaa',
+                    price: 88
+                },
+            }).then(res => {
+                console.log(res.data);
+            })
+        })
+    </script>
+</body>
+
+</html>

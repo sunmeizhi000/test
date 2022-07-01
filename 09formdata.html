@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+</head>
+
+<body>
+    <div>
+        <form action="" id="form1">
+            <input type="text" name="name">
+            <input type="password" name="psw">
+            <button type="submit">提交</button>
+        </form>
+    </div>
+    <script>
+        var form = document.querySelector('#form1')
+        console.log(form);
+        form.addEventListener('submit', function(e) {
+            e.preventDefault()
+                //创建 formdata 快速获取form表单数据
+                //根据form表单创建FormData对象，会自动将表单数据填充到FormData对象中
+            var fd = new FormData(form)
+            console.log(fd);
+            var xhr = new XMLHttpRequest()
+            xhr.open('post', 'http://www.liulongbin.top:3006/api/formdata')
+            xhr.send(fd)
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status == 200) {
+                    console.log(JSON.parse(xhr.responseText)); //{message: '测试FormData表单提交成功！', data: {…}}
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

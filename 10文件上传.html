@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <script src="./template-web.js"></script>
+</head>
+
+<body>
+    <input type="file" id="file1">
+    <button type="" id="upload">上传文件</button>
+    <br>
+    <!-- img标签用来显示上传成功的图片 -->
+    <img src="" alt="" id="img" width="800px">
+    <!-- 进度条 -->
+
+    <div class="progress" style="width: 500px; margin: 10px 0;">
+
+        <div class="progress-bar progress-bar-info progress-bar-striped active" id="percent" style="width: 0%;">
+            0%
+        </div>
+    </div>
+
+    <script>
+        var uploads = document.querySelector('#upload')
+        uploads.addEventListener('click', function() {
+            var files = document.querySelector('#file1').files
+            if (files.length <= 0) {
+                return alert('请选择文件')
+            } else {
+                var fd = new FormData()
+                fd.append('avatar', files[0])
+                var xhr = new XMLHttpRequest()
+                    //文件上传进度
+                xhr.upload.onprogress = function(e) {
+                    if (e.lengthComputable) {
+                        var procent = Math.ceil((e.loaded / e.total) * 100)
+                        console.log(procent);
+                        var percent = document.querySelector('#percent')
+                        percent.style.width = procent + '%'
+                        percent.innerHTML = procent + '%'
+                    }
+                }
+                xhr.upload.onload = function() {
+                    $('#percent').removeClass().addClass('progress-bar progress-bar-success')
+                }
+                xhr.open('Post', 'http://www.liulongbin.top:3006/api/upload/avatar')
+                xhr.send(fd)
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+                        console.log(JSON.parse(xhr.responseText));
+                        var data = JSON.parse(xhr.responseText)
+                        if (data.status == 200) {
+                            document.querySelector('#img').src = 'http://www.liulongbin.top:3006' + data.url
+                        } else {
+                            alert('上传失败')
+                        }
+                    }
+                }
+
+            }
+        })
+    </script>
+</body>
+
+</html>
